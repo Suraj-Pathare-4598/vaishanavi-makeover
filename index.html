@@ -203,14 +203,16 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200 bg-white">
-                        <!-- Data from image_b300dd.jpg -->
+                        <!-- Data updated based on user request -->
                         <tr class="hover:bg-yellow-50/50">
                             <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">Professional Bridal Makeup</td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-right font-bold text-primary">₹ 7,000</td>
+                            <!-- UPDATED VALUE: 10,000 -->
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-right font-bold text-primary">₹ 10,000</td>
                         </tr>
                         <tr class="hover:bg-yellow-50/50">
                             <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">Simple Bridal Makeup</td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-right text-gray-700">₹ 5,000</td>
+                            <!-- UPDATED VALUE: 7,000 -->
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-right text-gray-700">₹ 7,000</td>
                         </tr>
                         <tr class="hover:bg-yellow-50/50">
                             <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">Engagement Makeup</td>
@@ -230,11 +232,13 @@
                         </tr>
                         <tr class="hover:bg-yellow-50/50">
                             <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">Hair Style (Basic)</td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-right text-gray-700">₹ 250</td>
+                            <!-- UPDATED VALUE: 300 -->
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-right text-gray-700">₹ 300</td>
                         </tr>
                         <tr class="hover:bg-yellow-50/50">
                             <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">Saree Draping</td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-right text-gray-700">₹ 200</td>
+                            <!-- UPDATED VALUE: 500 -->
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-right text-gray-700">₹ 500</td>
                         </tr>
                         <!-- Special Offer Row -->
                         <tr class="bg-yellow-50/50 border-t-2 border-secondary font-bold">
@@ -297,7 +301,8 @@
                 Let's discuss your perfect look. Fill out the form below to check availability for your event date.
             </p>
 
-            <form class="space-y-6 text-left">
+            <!-- Added ID to form for JavaScript handling -->
+            <form id="booking-form" class="space-y-6 text-left">
                 <div>
                     <label for="name" class="block text-sm font-medium text-gray-200">Full Name</label>
                     <input type="text" id="name" required class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-secondary focus:border-secondary sm:text-sm text-gray-900" placeholder="Your Name">
@@ -322,6 +327,7 @@
                     <textarea id="message" rows="4" required class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-secondary focus:border-secondary sm:text-sm text-gray-900" placeholder="Event Date and Location (e.g., 20th Jan 2026, Pune)"></textarea>
                 </div>
                 <div>
+                    <!-- This button triggers the form submission and the modal -->
                     <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-full shadow-sm text-lg font-bold text-primary bg-secondary hover:bg-yellow-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary transition duration-300">
                         Submit Booking Request
                     </button>
@@ -329,6 +335,18 @@
             </form>
         </div>
     </section>
+
+    <!-- Custom Success Modal (Hidden by Default) -->
+    <div id="success-modal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-75 flex items-center justify-center p-4 transition-opacity duration-300">
+        <div class="bg-white p-8 rounded-xl shadow-2xl max-w-sm w-full text-center transform transition-transform duration-300 scale-95 md:scale-100">
+            <svg class="w-16 h-16 mx-auto mb-4 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <h3 class="text-2xl font-bold text-primary mb-3">Thank You for Visiting!</h3>
+            <p class="text-gray-700 mb-6">This is a demo website. For actual bookings and inquiries, please contact **Vaishanvi Rakshe** directly.</p>
+            <button id="close-modal-btn" class="w-full py-3 px-4 rounded-full text-lg font-bold text-white bg-primary hover:bg-maroon-dark transition duration-300">
+                Close
+            </button>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="bg-dark-bg border-t border-secondary/50 py-8">
@@ -343,19 +361,58 @@
         </div>
     </footer>
 
-    <!-- JavaScript for Mobile Menu Toggle -->
+    <!-- JavaScript for Mobile Menu Toggle and Modal Logic -->
     <script>
-        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Mobile Menu Logic ---
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenu.classList.toggle('hidden');
-        });
+            if (mobileMenuButton) {
+                mobileMenuButton.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
 
-        // Close mobile menu when a link is clicked
-        const mobileLinks = document.querySelectorAll('#mobile-menu a');
-        mobileLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                document.getElementById('mobile-menu').classList.add('hidden');
+            // Close mobile menu when a link is clicked
+            const mobileLinks = document.querySelectorAll('#mobile-menu a');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
             });
+
+
+            // --- Booking Modal Logic ---
+            const bookingForm = document.getElementById('booking-form');
+            const successModal = document.getElementById('success-modal');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+
+            if (bookingForm) {
+                bookingForm.addEventListener('submit', function(e) {
+                    e.preventDefault(); // Stop the form from submitting normally
+                    
+                    // Simple validation check (optional, but good practice)
+                    if (bookingForm.checkValidity()) {
+                        successModal.classList.remove('hidden'); // Show the modal
+                        bookingForm.reset(); // Clear the form fields after "submission"
+                    }
+                });
+            }
+
+            if (closeModalBtn) {
+                closeModalBtn.addEventListener('click', function() {
+                    successModal.classList.add('hidden'); // Hide the modal
+                });
+            }
+
+            // Close the modal if the user clicks the dark background overlay
+            if (successModal) {
+                successModal.addEventListener('click', function(e) {
+                    if (e.target === successModal) {
+                        successModal.classList.add('hidden');
+                    }
+                });
+            }
         });
     </script>
 
